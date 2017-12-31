@@ -1,7 +1,4 @@
 ---
-- name: "Include {{ ansible_distribution }} tasks"
-  include_tasks: "{{ ansible_distribution }}/main.yml"
-
 - name: Install Apache
   yum:
     name: httpd

@@ -1,4 +1,6 @@
 ---
+apache_server_root: "_apache_server_root[ansible_distribution_os_family]"
+
 apache_vhost_base_directory: /var/www/vhosts
 
 apache_vhost_directories:
@@ -15,6 +17,28 @@ apache_custom_log_formats:
     format: "%h   %a  %v:%p  %U  %q"
 
 apache_vhosts: []
+#  - owner: apache
+#    group: apache
+#    server_name: example.com
+#    server_admin: webmaster@example.com
+#    server_aliases:
+#      - www.example.com
+#    custom_logs:
+#      - name: "access_log"
+#        format: "common"
+#    additional_directories:
+#      - directory_path: /some/other/path
+#        options:
+#          - AllowOverride All
+#          - Options -Indexes +FollowSymLinks
+#          - Require all granted
+#    custom_log:
+#    extra_config_options:
+#      - RewriteEngine on
+#      - RewriteCond %{SERVER_NAME} =example.com
+#      - RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+
+apache_ssl_vhosts: []
 #  - owner: apache
 #    group: apache
 #    server_name: example.com

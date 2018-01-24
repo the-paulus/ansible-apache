@@ -1,2 +1,8 @@
 ---
-# vars file for apache
+_apache_server_root:
+  CentOS: /etc/httpd
+  RedHat: /etc/httpd
+  
+_apache_rh_packages:
+  - httpd
+  - mod_ssl

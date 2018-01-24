@@ -1,5 +1,6 @@
 ---
 - name: Install Apache
   yum:
-    name: httpd
+    name: "{{ item }}"
+  with_items: "{{ _apache_rh_packages }}"
   notify: "Start httpd"

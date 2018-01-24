@@ -12,6 +12,34 @@
     - "{{ apache_vhosts }}"
     - "{{ apache_vhost_directories }}"
 
-- name: Import SELinux Tasks
-  include_tasks: selinux.yml
-  when:
+- name: "Create vhosts configuration directory"
+  file:
+    path: "{{ item }}"
+    owner: root
+    group: root
+    state: directory
+  with_items:
+    - "{{ _apache_server_root[ansible_distribution] }}/conf.d"
+    - "{{ _apache_server_root[ansible_distribution] }}/conf.d/vhosts"
+
+- name: "Create vhost file"
+  template:
+    dest: "{{ _apache_server_root[ansible_distribution] }}/conf.d/vhosts/{{ item['server_name'] | replace('.', '_') }}.conf"
+    src: "vhost.conf.j2"
+    owner: root
+    group: root
+  with_items:
+    - "{{ apache_vhosts }}"
+
+- name: "Craete ssl-vhost file"
+  template:
+    dest: "{{ _apache_server_root[ansible_distribution] }}/conf.d/vhosts/{{item['server_name'] | replace('.', '_') }}-ssl.conf"
+    src: "vhost-ssl.conf.j2"
+    owner: root
+    group: root
+  with_items:
+    - "{{ apache_ssl_vhosts }}"
+
+#- name: Import SELinux Tasks
+#  include_tasks: selinux.yml
+#  when:

@@ -1,13 +1,13 @@
-<VirtualHost *:80>
-  ServerName {{ server_name }}
-  {% for server_alias in server_aliases %}
+<VirtualHost {{ item['listen_address'] | default('*')}}:{{ item['listen_port'] | default('80') }}>
+  ServerName {{ item['server_name'] }}
+  {% for server_alias in item['server_aliases'] %}
   ServerAlias {{ server_alias }}
   {% endfor %}
 
-  DocumentRoot "{{ apache_vhost_base_directory }}/{{ server_name }}/httpdocs"
+  DocumentRoot "{{ apache_vhost_base_directory }}/{{ item['server_name'] }}/httpdocs"
 
-  ErrorLog "{{ apache_vhost_base_directory }}/{{ server_name }}/logs/error_log"
-  {% for custom_log in custom_logs %}
+  ErrorLog "{{ apache_vhost_base_directory }}/{{ item['server_name'] }}/logs/error_log"
+  {% for custom_log in item['custom_logs'] %}
   CustomLog {{ custom_log.name }} {{ custom_log.format }}
   {% endfor %}
 
@@ -31,15 +31,15 @@
     SetEnvIf User-Agent ".*MSIE.*" nokeepalive ssl-unclean-shutdown downgrade-1.0 force-response-1.0
   </IfModule>
 
-  <Directory "{{ apache_vhost_base_directory }}/{{ server_name }}/httpdocs">
+  <Directory "{{ apache_vhost_base_directory }}/{{ item['server_name'] }}/httpdocs">
     Options -Indexes -FollowSymLinks
     AllowOverride all
     Require all granted
   </Directory>
 
-  {% for additional_directory in additional_directories %}
-  <Directory "{{ additional_directory.directory_path }}">
-    {% for option in options %}
+  {% for additional_directory in item['additional_directories'] %}
+  <Directory "{{ additional_directory['directory_path'] }}">
+    {% for option in additional_directory['options'] %}
       {{ option }}
     {% endfor %}
   </Directory>

@@ -40,9 +40,24 @@
   {% for additional_directory in item['additional_directories'] %}
   <Directory "{{ additional_directory['directory_path'] }}">
     {% for option in additional_directory['options'] %}
-      {{ option }}
+    {{ option }}
     {% endfor %}
   </Directory>
   {% endfor %}
+
+  {% if item['ssl_options'] is defined %}
+  {% for ssl_option in item['ssl_options']%}
+  {{ ssl_option }}
+  {% endfor %}
+  {% endif %}
+  {% if item['cert_file'] is defined %}
+  SSLCertificateFile {{ item['cert_file'] }}
+  {% endif %}
+  {% if item['cert_key_file'] is defined %}
+  SSLCertificateKeyFile {{ item['cert_key_file'] }}
+  {% endif %}
+  {% if item['cert_chain_file'] is defined %}
+  SSLCertificateChainFile {{ item['cert_chain_file'] }}
+  {% endif %}
 
 </VirtualHost>

@@ -4,3 +4,9 @@
     name: httpd
     enabled: yes
     state: started
+
+- name: Start apache2
+  service:
+    name: apache2
+    enabled: yes
+    state: started

@@ -2,7 +2,53 @@
 _apache_server_root:
   CentOS: /etc/httpd
   RedHat: /etc/httpd
-  
+
 _apache_rh_packages:
   - httpd
   - mod_ssl
+
+_apache_gentoo_flags:
+  - ssl
+  - threads
+
+_apache_gentoo_modules:
+  - alias
+  - auth_basic
+  - auth_digest
+  - authn_core
+  - authz_core
+  - authz_dbd
+  - authz_host
+  - authz_owner
+  - authz_user
+  - dbd
+  - dir
+  - headers
+  - http2
+  - include
+  - log_config
+  - log_forensic
+  - mime
+  - rewrite
+  - setenvif
+  - spelling
+  - status
+  - vhost_alias
+
+_apache_gentoo_mpms:
+  - worker
+
+_apache_selinux_fcontexts:
+  types:
+    - spec: /var/www/vhosts(/.*)?/logs(/.*)?
+      type: httpd_log_t
+    - spec: /var/www/vhosts(/.*)?/backup(/.*)?
+      type: httpd_sys_rw_content_t
+    - spec: /var/www/vhosts(/.*)?/private(/.*)?
+      type: httpd_sys_rw_content_t
+    - spec: /var/www/vhosts(/.*)?/httpdocs/sites(/.*)?/files(/.*)?
+      type: httpd_sys_rw_content_t
+    - spec: /var/www/vhosts(/.*)?/backups(/.*)?
+      type: httpd_sys_rw_content_t
+    - spec: /var/www/vhosts(/.*)?/httpdocs/cache(/.*)?
+      type: httpd_sys_rw_content_t

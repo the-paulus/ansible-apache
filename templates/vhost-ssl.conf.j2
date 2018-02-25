@@ -1,15 +1,19 @@
 <VirtualHost {{ item['listen_address'] | default('*')}}:{{ item['listen_port'] | default('443') }}>
   ServerName {{ item['server_name'] }}
+  {% if item['server_aliases'] is defined %}
   {% for server_alias in item['server_aliases'] %}
   ServerAlias {{ server_alias }}
   {% endfor %}
+  {% endif %}
 
   DocumentRoot "{{ apache_vhost_base_directory }}/{{ item['server_name'] }}/httpdocs"
 
   ErrorLog "{{ apache_vhost_base_directory }}/{{ item['server_name'] }}/logs/error_log"
+  {% if item['custom_logs'] is defined %}
   {% for custom_log in item['custom_logs'] %}
   CustomLog {{ custom_log.name }} {{ custom_log.format }}
   {% endfor %}
+  {% endif %}
 
   <IfModule mod_headers.c>
     <FilesMatch "(\.js|\.css)">
@@ -37,13 +41,17 @@
     Require all granted
   </Directory>
 
+  {% if item['additional_directories'] is defined %}
   {% for additional_directory in item['additional_directories'] %}
   <Directory "{{ additional_directory['directory_path'] }}">
+    {% if additional_directory['options'] is defined %}
     {% for option in additional_directory['options'] %}
     {{ option }}
     {% endfor %}
+    {% endif %}
   </Directory>
   {% endfor %}
+  {% endif %}
 
   {% if item['ssl_options'] is defined %}
   {% for ssl_option in item['ssl_options']%}

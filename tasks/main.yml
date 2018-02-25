@@ -1,7 +1,7 @@
 ---
 - name: Import Apache Install Tasks
   include_tasks: "{{ ansible_os_family }}/main.yml"
-
+  
 - name: Create Hosting File Structure
   file:
     path: "{{ apache_vhost_base_directory }}/{{ item[0]['server_name'] }}/{{ item[1] }}"
@@ -22,7 +22,7 @@
     - "{{ _apache_server_root[ansible_distribution] }}/conf.d"
     - "{{ _apache_server_root[ansible_distribution] }}/conf.d/vhosts"
 
-- name: "Create vhost file"
+- name: "Create vhost files"
   template:
     dest: "{{ _apache_server_root[ansible_distribution] }}/conf.d/vhosts/{{ item['server_name'] | replace('.', '_') }}.conf"
     src: "vhost.conf.j2"
@@ -31,7 +31,7 @@
   with_items:
     - "{{ apache_vhosts }}"
 
-- name: "Craete ssl-vhost file"
+- name: "Craete ssl-vhost files"
   template:
     dest: "{{ _apache_server_root[ansible_distribution] }}/conf.d/vhosts/{{item['server_name'] | replace('.', '_') }}-ssl.conf"
     src: "vhost-ssl.conf.j2"
@@ -40,6 +40,9 @@
   with_items:
     - "{{ apache_ssl_vhosts }}"
 
-#- name: Import SELinux Tasks
-#  include_tasks: selinux.yml
-#  when:
+- name: Import Apache Install Tasks
+  include_tasks: "{{ ansible_os_family }}/main.yml"
+
+- name: Import SELinux Tasks
+  include_tasks: selinux.yml
+  when: ansible_selinux['status'] is defined and ansible_selinux['status'] == enabled

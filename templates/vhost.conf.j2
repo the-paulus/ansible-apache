@@ -45,7 +45,7 @@
   {% for additional_directory in item['additional_directories'] %}
   <Directory "{{ additional_directory['directory_path'] }}">
     {% for option in additional_directory['options'] %}
-      {{ option }}
+    {{ option }}
     {% endfor %}
   </Directory>
   {% endfor %}

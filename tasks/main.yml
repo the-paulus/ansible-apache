@@ -1,7 +1,7 @@
 ---
 - name: Import Apache Install Tasks
   include_tasks: "{{ ansible_os_family }}/main.yml"
-  
+
 - name: Create Hosting File Structure
   file:
     path: "{{ apache_vhost_base_directory }}/{{ item[0]['server_name'] }}/{{ item[1] }}"
@@ -39,9 +39,6 @@
     group: root
   with_items:
     - "{{ apache_ssl_vhosts }}"
-
-- name: Import Apache Install Tasks
-  include_tasks: "{{ ansible_os_family }}/main.yml"
 
 - name: Import SELinux Tasks
   include_tasks: selinux.yml

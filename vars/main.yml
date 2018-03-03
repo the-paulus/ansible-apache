@@ -2,6 +2,7 @@
 _apache_server_root:
   CentOS: /etc/httpd
   RedHat: /etc/httpd
+  Gentoo: /etc/apache2
 
 _apache_rh_packages:
   - httpd

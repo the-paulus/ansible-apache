@@ -4,16 +4,16 @@
     name: "policycoreutils-python"
 
 - name: "Craete fcontext (files)"
-  shell: "semanage fcontext --add -f {{ item.file }} {{ item.spec }}"
+  shell: "semanage fcontext --add -f {{ item.file }} '{{ item.spec }}'"
   with_items: "{{ apache_selinux_fcontexts.files }}"
   when: apache_selinux_fcontexts.files is defined and apache_selinux_fcontexts.files
 
 - name: "Craete fcontext (types)"
-  shell: "semanage fcontext --add -t {{ item.type }} {{ item.spec }}"
+  shell: "semanage fcontext --add -t {{ item.type }} '{{ item.spec }}'"
   with_items: "{{ apache_selinux_fcontexts.types }}"
   when: apache_selinux_fcontexts.types is defined and apache_selinux_fcontexts.types
 
 - name: "Craete fcontext (ranges)"
-  shell: "semanage fcontext --add -r {{ item.range }} {{ item.spec }}"
+  shell: "semanage fcontext --add -r {{ item.range }} '{{ item.spec }}'"
   with_items: "{{ apache_selinux_fcontexts.ranges }}"
   when: apache_selinux_fcontexts.ranges is defined and apache_selinux_fcontexts.ranges

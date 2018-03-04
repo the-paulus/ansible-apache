@@ -1,0 +1,46 @@
+---
+- name: Add Apache options to make.conf
+  lineinfile:
+    path: /etc/portage/make.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    backup: "{{ apache_backup_configurations | default('yes') }}"
+  with_items:
+    - regexp: '\w.*APACHE2_MPMS='
+      line: "APACHE2_MODULES={{"}}{{ apache_gentoo_mpm | default(_apache_gentoo_mpm) | join(' ') }}{{"}}"
+    - regexp: '\w.*APACHE2_MODULES='
+      line: "APACHE2_MODULES={{"}}{{ apache_gentoo_modules | default(_apache_gentoo_modules) | join(' ') }}{{"}}"
+      
+- name: Check type of /etc/portage/package.use
+  stat:
+    path: /etc/portage/package.use
+  register: package_use_stat
+
+- name: Update Apache use flags in /etc/portage/package.use
+  lineinfile:
+    path: /etc/portage/package.use
+    regexp: '^www\-servers\/apache'
+    line: "www-servers/apache {{ apache_gentoo_flags | default(_apache_gentoo_flags) | join(' ') }}"
+    state: present
+    backup: "{{ apache_backup_configurations | default('yes') }}"
+  when: package_use_stat.exists and package_use_stat.isfile
+
+- name: Update Apache use flags in /etc/portage/package.use/apache
+  lineinfile:
+    path: /etc/portage/package.use/apache
+    regexp: '^www\-servers\/apache'
+    line: "www-servers/apache {{ apache_gentoo_flags | default(_apache_gentoo_flags) | join(' ') }}"
+    state: present
+    create: yes
+    backup: "{{ apache_backup_configurations | default('yes') }}"
+  when: package_use_stat.exists and package_use_stat.isdir
+
+- name: Install Apache
+  portage:
+    newuse: yes
+    update: yes
+    sync: yes
+    package: "www-servers/apache"
+    quiet: yes
+    state: present

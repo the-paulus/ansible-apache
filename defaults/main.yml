@@ -87,11 +87,11 @@ apache_selinux_fcontexts: "{{ _apache_selinux_fcontexts }}"
 #    - spec: /var/www/vhosts(/.*)?/httpdocs/cache(/.*)?
 #      type: httpd_sys_rw_content_t
 #  ranges:
-#    - spec:
-#      range:
+#    - range:
+#      spec:
 #  users:
-#    - spec:
-#      user:
+#    - user:
+#      spec:
 
 apache_selinux_booleans: "{{ _apache_selinux_booleans }}"
 #  - httpd_can_network_connect_db

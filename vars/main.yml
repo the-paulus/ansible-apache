@@ -4,6 +4,11 @@ _apache_server_root:
   RedHat: /etc/httpd
   Gentoo: /etc/apache2
 
+_apache_service_name:
+  CentOS: httpd
+  Gentoo: apache2
+  RedHat: httpd
+
 _apache_rh_packages:
   - httpd
   - mod_ssl
@@ -41,15 +46,15 @@ _apache_gentoo_mpms:
 
 _apache_selinux_fcontexts:
   types:
-    - spec: /var/www/vhosts(/.*)?/logs(/.*)?
-      type: httpd_log_t
-    - spec: /var/www/vhosts(/.*)?/backup(/.*)?
-      type: httpd_sys_rw_content_t
-    - spec: /var/www/vhosts(/.*)?/private(/.*)?
-      type: httpd_sys_rw_content_t
-    - spec: /var/www/vhosts(/.*)?/httpdocs/sites(/.*)?/files(/.*)?
-      type: httpd_sys_rw_content_t
-    - spec: /var/www/vhosts(/.*)?/backups(/.*)?
-      type: httpd_sys_rw_content_t
-    - spec: /var/www/vhosts(/.*)?/httpdocs/cache(/.*)?
-      type: httpd_sys_rw_content_t
+    - type: httpd_log_t
+      spec: /var/www/vhosts(/.*)?/logs(/.*)?
+    - type: httpd_sys_rw_content_t
+      spec: /var/www/vhosts(/.*)?/backup(/.*)?
+    - type: httpd_sys_rw_content_t
+      spec: /var/www/vhosts(/.*)?/private(/.*)?
+    - type: httpd_sys_rw_content_t
+      spec: /var/www/vhosts(/.*)?/httpdocs/sites(/.*)?/files(/.*)?
+    - type: httpd_sys_rw_content_t
+      spec: /var/www/vhosts(/.*)?/backups(/.*)?
+    - type: httpd_sys_rw_content_t
+      spec: /var/www/vhosts(/.*)?/httpdocs/cache(/.*)?

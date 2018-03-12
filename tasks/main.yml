@@ -39,7 +39,14 @@
     group: root
   with_items:
     - "{{ apache_ssl_vhosts }}"
+  when: apache_skip_ssl_vhosts is defined and apache_skip_ssl_vhosts
 
 - name: Import SELinux Tasks
   include_tasks: selinux.yml
   when: ansible_selinux['status'] is defined and ansible_selinux['status'] == enabled
+
+- name: "Enable and start apache"
+  service:
+    name: "{{ _apache_service_name[ansible_distribution] }}"
+    enabled: yes
+    state: restarted

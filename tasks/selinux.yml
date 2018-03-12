@@ -1,7 +1,6 @@
 ---
-- name: "Install policycoreutils-python package"
-  yum:
-    name: "policycoreutils-python"
+- name: Include Tasks to Install necessary SELinux Tools
+  include_tasks: "{{ ansible_os_family }}/selinux.yml"
 
 - name: "Craete fcontext (files)"
   shell: "semanage fcontext --add -f {{ item.file }} '{{ item.spec }}'"

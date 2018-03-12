@@ -38,6 +38,10 @@ apache_vhosts: []
 #      - RewriteCond %{SERVER_NAME} =example.com
 #      - RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
 
+# Set to yes if using certbot.
+apache_skip_ssl_vhosts: no
+apache_use_letsencrypt: no
+
 apache_ssl_vhosts: []
 #  - owner: apache
 #    group: apache

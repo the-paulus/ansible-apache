@@ -4,3 +4,29 @@
     name: "{{ item }}"
   with_items: "{{ _apache_rh_packages }}"
   notify: "Start httpd"
+
+- name: "Install policycoreutils-python package"
+  yum:
+    name: "policycoreutils-python"
+  when: ansible_selinux['status'] is defined and ansible_selinux['status'] == 'enabled'
+
+- name: "Determine if firewalld is installed"
+  stat:
+    path: /usr/lib/systemd/system/firewalld.service
+  register: apache_firewalld_stat
+  when: ansible_service_mgr == 'systemd'
+
+- name: "Install python-firewall package for firewalld tasks"
+  yum:
+    name: "python-firewall"
+  when: apache_firewalld_stat.stat.exists
+
+- name: "Enable Firewalld Rules"
+  firewalld:
+    service: "{{ item }}"
+    state: enabled
+    zone: system-default(public)
+  with_items:
+    - http
+    - https
+  ignore_errors: yes

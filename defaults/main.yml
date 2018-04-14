@@ -1,5 +1,5 @@
 ---
-apache_server_root: "_apache_server_root[ansible_distribution_os_family]"
+apache_server_root: "{{ _apache_server_root[ansible_os_family] }}"
 
 apache_vhost_base_directory: /var/www/vhosts
 
@@ -13,8 +13,24 @@ apache_vhost_directories:
 apache_custom_log_formats:
   - name: common
     format: "%h %l %u %t \"%r\" %>s %b"
-    name:
+    name: custom
     format: "%h   %a  %v:%p  %U  %q"
+
+apache_vhost_standard_settings:
+  - DirectoryIndex index.php index.html
+  - AddDefaultCharset utf-8
+  - Alias /404 "/var/www/error/404.html"
+  - Alias /403 "/var/www/error/403.html"
+  - Alias /500 "/var/www/error/500.html"
+  - Alias /503 "/var/www/error/503.html"
+  - ErrorDocument 404 /404
+  - ErrorDocument 403 /403
+  - ErrorDocument 500 /500
+  - ErrorDocument 503 /503
+  - ServerSignature Off
+  - ServerTokens Prod
+  - ProxyRequests Off
+  - RewriteEngine On
 
 apache_vhosts: []
 #  - owner: apache
@@ -73,6 +89,7 @@ apache_ssl_vhosts: []
 
 apache_selinux_fcontexts: "{{ _apache_selinux_fcontexts }}"
 #  files:
+#    - file:
 #    - spec:
 #  types:
 #      type: httpd_log_t

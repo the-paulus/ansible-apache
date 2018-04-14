@@ -16,3 +16,6 @@
   shell: "semanage fcontext --add -r {{ item.range }} '{{ item.spec }}'"
   with_items: "{{ apache_selinux_fcontexts.ranges }}"
   when: apache_selinux_fcontexts.ranges is defined and apache_selinux_fcontexts.ranges
+
+- name: "Restore SELinux contexts"
+  shell: "restorecon -R {{ apache_vhost_base_directory }}"

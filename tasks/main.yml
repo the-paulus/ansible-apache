@@ -12,6 +12,13 @@
     - "{{ apache_vhosts }}"
     - "{{ apache_vhost_directories }}"
 
+- name: "Create/Update main Apache configuration file"
+  template:
+    dest: "{{ _apache_server_root[ansible_distribution] }}/conf/httpd.conf"
+    src: "httpd.conf.j2"
+    owner: root
+    group: root
+
 - name: "Create vhosts configuration directory"
   file:
     path: "{{ item }}"
@@ -28,6 +35,7 @@
     src: "vhost.conf.j2"
     owner: root
     group: root
+    backup: yes
   with_items:
     - "{{ apache_vhosts }}"
 

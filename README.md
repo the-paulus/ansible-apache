@@ -1,7 +1,7 @@
 Apache
 =========
 
-Installs and configures Apache 2.4 with virtual hosts.
+Installs and configures Apache 2.x with virtual hosts.
 
 Requirements
 ------------

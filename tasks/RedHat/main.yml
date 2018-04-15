@@ -12,7 +12,7 @@
 
 - name: "Determine if firewalld is installed"
   stat:
-    path: /usr/lib/systemd/system/firewalld.service
+    path: /etc/systemd/system/multi-user.target.wants/firewalld.service
   register: apache_firewalld_stat
   when: ansible_service_mgr == 'systemd'
 
@@ -25,8 +25,9 @@
   firewalld:
     service: "{{ item }}"
     state: enabled
-    zone: system-default(public)
+    permanent: yes
   with_items:
     - http
     - https
   ignore_errors: yes
+  when: apache_firewalld_stat.stat.exists

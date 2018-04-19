@@ -2,15 +2,32 @@
 - name: Import Apache Install Tasks
   include_tasks: "{{ ansible_os_family }}/main.yml"
 
+- set_fact:
+    apache_merged_vhosts: "{{ apache_vhosts }}"
+
+- set_fact:
+    apache_merged_vhosts: "{{ apache_merged_vhosts + apache_ssl_vhosts }}"
+  when: apache_vhosts and apache_ssl_vhosts
+
 - name: Create Hosting File Structure
   file:
     path: "{{ apache_vhost_base_directory }}/{{ item[0]['server_name'] }}/{{ item[1] }}"
-    group: "{{ item[0]['group'] }}"
     state: directory
     owner: "{{ item[0]['owner'] }}"
+    group: "{{ item[0]['group'] }}"
   with_nested:
-    - "{{ apache_vhosts }}"
+    - "{{ apache_merged_vhosts }}"
     - "{{ apache_vhost_directories }}"
+
+- name: Create Additional Direcories
+  file:
+    path: "{{ item[1] }}"
+    state: directory
+    owner: "{{ item[0]['owner'] }}"
+    group: "{{ item[0]['group'] }}"
+  with_nested:
+    - "{{ apache_merged_vhosts }}"
+    - "{{ ['additional_directories']|map('extract', apache_merged_vhosts) }}"
 
 - name: "Create/Update main Apache configuration file"
   template:
@@ -35,19 +52,23 @@
     src: "vhost.conf.j2"
     owner: root
     group: root
-    backup: yes
   with_items:
     - "{{ apache_vhosts }}"
 
-- name: "Craete ssl-vhost files"
+- name: "Create ssl-vhost files"
   template:
     dest: "{{ _apache_server_root[ansible_distribution] }}/conf.d/vhosts/{{item['server_name'] | replace('.', '_') }}-ssl.conf"
     src: "vhost-ssl.conf.j2"
     owner: root
     group: root
+  when: apache_ssl_vhosts and not apache_use_letsencrypt
   with_items:
     - "{{ apache_ssl_vhosts }}"
-  when: apache_skip_ssl_vhosts is defined and apache_skip_ssl_vhosts
+
+- name: "Including certbot role"
+  include_role:
+    name: 'the-paulus.certbot2'
+  when: apache_use_letsencrypt
 
 - name: Import SELinux Tasks
   include_tasks: selinux.yml

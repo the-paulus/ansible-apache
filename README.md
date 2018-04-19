@@ -14,7 +14,7 @@ Role Variables
 ### General
 
 ```yml
-apache_server_root: "_apache_server_root[ansible_distribution_os_family]"
+apache_server_root: "{{ _apache_server_root[ansible_os_family] }}"
 ```
 The `apache_server_root` variable defaults to the distribution specific location
 of Apache. For RedHat based distributions this is usually **/etc/httpd**.
@@ -24,6 +24,7 @@ apache_vhost_base_directory: /var/www/vhosts
 ```
 The `apache_vhost_base_directory` contains the location of where the vhosts
 will live.
+
 ```yml
 apache_vhost_directories:
   - backups
@@ -32,15 +33,19 @@ apache_vhost_directories:
   - private
   - subdomains
 ```
+
 All sub-directories that are to be created for each vhost are defined in the
 `apache_vhost_directories` list variable.
+
 ```yml
 apache_custom_log_formats:
   - name: common
     format: "%h %l %u %t \"%r\" %>s %b"
 ```
+
 Custom log formats are defined within the `apache_custom_log_formats` listed
 dictionary variable.
+
 ```yml
 apache_vhosts:
   - owner: apache
@@ -75,24 +80,25 @@ apache_ssl_vhosts:
       - name: "access_log"
         format: "common"
     additional_directories:
-      - directory_path: /some/other/path
+      - directory_path: /var/www/vhosts/example.com/httpdocs
         options:
           - AllowOverride All
           - Options -Indexes +FollowSymLinks
           - Require all granted
-    custom_log:
+    custom_logs: []
+    cert_file: /etc/pki/tls/certs/localhost.crt
+    cert_key_file: /etc/pki/tls/private/localhost.key
+    cert_chain_file: /etc/pki/tls/certs/ca-bundle.crt
     ssl_options:
       - "SSLProtocol -all TLSv1.2"
       - "SSLHonorCipherOrder On"
       - "SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:RSA+AESGCM:RSA+AES:!aNULL:!MD5:!DSS"
-     cert_file: /etc/pki/certs/example_com.crt
-     cert_key_file: /etc/pki/private/example_com.key
-     cert_chain_file: /etc/pki/certs/intermedia.crt
-     extra_config_options:
+    extra_config_options:
       - RewriteEngine on
       - RewriteCond %{SERVER_NAME} =example.com
       - RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
 ```
+
 Each non-SSL and SSL enabled vhosts are defined as a listed dictionary variable
 called `apache_vhosts` and `apache_ssl_vhosts`, respectively. Both variables
 are identical with the exception of SSL related elements in the
@@ -124,6 +130,8 @@ the the `server_name` and `apache_vhost_base_directory` variables.
 domain's certificate.
 - `extra_config_options` is where any other configuration should be placed.
 Each item represents one line.
+
+Subdomains are intended to be treated as a separate vhost. When creating one, create a subdomain in either the `apache_vhosts` or `apache_ssl_vhosts` list dictionary add an item to the `additional_directories` list containing the directory for the subdomain; */var/www/vhosts/example.com/subdomains/subdomain/httpdocs*
 
 ```yml
 apache_selinux_fcontexts:
@@ -166,7 +174,9 @@ apache_gentoo_flags:
   - ssl
   - threads
 ```
+
 Additional use flags for the apache package can be set in `apache_gentoo_flags`.
+
 ```yml
 apache_gentoo_modules:
   - alias
@@ -192,13 +202,16 @@ apache_gentoo_modules:
   - status
   - vhost_alias
 ```
+
 When installing Apache on a Gentoo system, common modules such as mod_rewrite
 need to be specified. The `apache_gentoo_modules` contains a list of required
 modules.
+
 ```yml
 apache_gentoo_mpms:
   - worker
 ```
+
 A list of Apache MPMs defined as a list.
 
 ### RedHat
@@ -208,6 +221,7 @@ apache_rh_packages: "{{ _apache_rh_packages }}"
 #  - httpd
 #  - mod_ssl
 ```
+
 Additional RedHat based Apache packages are listed in `apache_rh_packages`.
 The default list includes the httpd and mod_ssl packages.
 
@@ -232,8 +246,3 @@ License
 -------
 
 BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).

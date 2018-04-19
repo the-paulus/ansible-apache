@@ -48,14 +48,12 @@ apache_vhosts: []
 #          - AllowOverride All
 #          - Options -Indexes +FollowSymLinks
 #          - Require all granted
-#    custom_log:
+#    custom_log: []
 #    extra_config_options:
 #      - RewriteEngine on
 #      - RewriteCond %{SERVER_NAME} =example.com
 #      - RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
 
-# Set to yes if using certbot.
-apache_skip_ssl_vhosts: no
 apache_use_letsencrypt: no
 
 apache_ssl_vhosts: []
@@ -69,20 +67,20 @@ apache_ssl_vhosts: []
 #      - name: "access_log"
 #        format: "common"
 #    additional_directories:
-#      - directory_path: /some/other/path
+#      - directory_path: /var/www/vhosts/example.com/httpdocs
 #        options:
 #          - AllowOverride All
 #          - Options -Indexes +FollowSymLinks
 #          - Require all granted
-#    custom_log:
+#    custom_logs: []
+#    cert_file: /etc/pki/tls/certs/localhost.crt
+#    cert_key_file: /etc/pki/tls/private/localhost.key
+#    cert_chain_file: /etc/pki/tls/certs/ca-bundle.crt
 #    ssl_options:
 #      - "SSLProtocol -all TLSv1.2"
 #      - "SSLHonorCipherOrder On"
 #      - "SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:RSA+AESGCM:RSA+AES:!aNULL:!MD5:!DSS"
-#     cert_file: /etc/pki/certs/example_com.crt
-#     cert_key_file: /etc/pki/private/example_com.key
-#     cert_chain_file: /etc/pki/certs/intermedia.crt
-#     extra_config_options:
+#    extra_config_options:
 #      - RewriteEngine on
 #      - RewriteCond %{SERVER_NAME} =example.com
 #      - RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]

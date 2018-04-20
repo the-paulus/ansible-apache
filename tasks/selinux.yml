@@ -12,7 +12,7 @@
   with_items: "{{ apache_selinux_fcontexts.types }}"
   when: apache_selinux_fcontexts.types is defined and apache_selinux_fcontexts.types
 
-- name: "Craete fcontext (ranges)"
+- name: "Create fcontext (ranges)"
   shell: "semanage fcontext --add -r {{ item.range }} '{{ item.spec }}'"
   with_items: "{{ apache_selinux_fcontexts.ranges }}"
   when: apache_selinux_fcontexts.ranges is defined and apache_selinux_fcontexts.ranges

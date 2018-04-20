@@ -74,6 +74,20 @@
   include_tasks: selinux.yml
   when: ansible_selinux['status'] is defined and ansible_selinux['status'] == enabled
 
+- name: "Install python-firewall package for firewalld tasks"
+  yum:
+    name: "python-firewall"
+
+- name: "Enable Firewalld Rules"
+  firewalld:
+    service: "{{ item }}"
+    state: enabled
+    immediate: yes
+    permanent: yes
+  with_items:
+    - http
+    - https
+
 - name: "Enable and start apache"
   service:
     name: "{{ _apache_service_name[ansible_distribution] }}"

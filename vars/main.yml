@@ -4,6 +4,16 @@ _apache_server_root:
   RedHat: /etc/httpd
   Gentoo: /etc/apache2
 
+_apache_httpd_conf_path:
+  CentOS: /etc/httpd/conf/httpd.conf
+  Gentoo: /etc/apache2/httpd.conf
+  RedHat: /etc/httpd/conf/httpd.conf
+
+_apache_vhosts_conf_path:
+  CentOS: /etc/httpd/conf.d/vhosts
+  Gentoo: /etc/apache2/vhosts.d
+  RedHat: /etc/httpd/conf.d/vhosts
+
 _apache_service_name:
   CentOS: httpd
   Gentoo: apache2
@@ -35,10 +45,15 @@ _apache_gentoo_modules:
   - log_config
   - log_forensic
   - mime
+  - proxy
+  - proxy_fcgi
   - rewrite
   - setenvif
+  - socache_shmcb
   - spelling
   - status
+  - unixd
+  - userdir
   - vhost_alias
 
 _apache_gentoo_mpms:

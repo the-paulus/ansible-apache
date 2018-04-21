@@ -10,6 +10,8 @@ apache_vhost_directories:
   - private
   - subdomains
 
+apache_gentoo_opts: "-D DEFAULT_VHOST -D INFO -D SSL -D SSL_DEFAULT_VHOST -D PROXY"
+
 apache_custom_log_formats:
   - name: common
     format: "%h %l %u %t \"%r\" %>s %b"

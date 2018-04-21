@@ -7,11 +7,19 @@
     state: present
     backup: "{{ apache_backup_configurations | default('yes') }}"
   with_items:
-    - regexp: '\w.*APACHE2_MPMS='
-      line: "APACHE2_MODULES={{"}}{{ apache_gentoo_mpm | default(_apache_gentoo_mpm) | join(' ') }}{{"}}"
-    - regexp: '\w.*APACHE2_MODULES='
-      line: "APACHE2_MODULES={{"}}{{ apache_gentoo_modules | default(_apache_gentoo_modules) | join(' ') }}{{"}}"
-      
+    - regexp: '\w*.*APACHE2_MPMS='
+      line: "APACHE2_MPMS=\"{{ apache_gentoo_mpms | default(_apache_gentoo_mpms) | join(' ') }}\""
+    - regexp: '\w*.*APACHE2_MODULES='
+      line: "APACHE2_MODULES=\"{{ apache_gentoo_modules | default(_apache_gentoo_modules) | join(' ') }}\""
+
+- name: Update /etc/conf.d/apache2
+  lineinfile:
+    path: /etc/conf.d/apache2
+    regexp: '\w*.*APACHE2_OPTS='
+    line: "APACHE2_OPTS=\"{{ apache_gentoo_opts }}\""
+    backup: yes
+
+
 - name: Check type of /etc/portage/package.use
   stat:
     path: /etc/portage/package.use
@@ -24,7 +32,7 @@
     line: "www-servers/apache {{ apache_gentoo_flags | default(_apache_gentoo_flags) | join(' ') }}"
     state: present
     backup: "{{ apache_backup_configurations | default('yes') }}"
-  when: package_use_stat.exists and package_use_stat.isfile
+  when: package_use_stat.stat.exists and package_use_stat.stat.isreg
 
 - name: Update Apache use flags in /etc/portage/package.use/apache
   lineinfile:
@@ -34,7 +42,7 @@
     state: present
     create: yes
     backup: "{{ apache_backup_configurations | default('yes') }}"
-  when: package_use_stat.exists and package_use_stat.isdir
+  when: package_use_stat.stat.exists and package_use_stat.stat.isdir
 
 - name: Install Apache
   portage:

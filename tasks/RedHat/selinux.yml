@@ -1,4 +1,7 @@
 ---
 - name: "Install policycoreutils-python package"
   yum:
-    name: "policycoreutils-python"
+    name: "{{ item }}"
+  with_items:
+    - "policycoreutils-python"
+    - "libselinux-python"

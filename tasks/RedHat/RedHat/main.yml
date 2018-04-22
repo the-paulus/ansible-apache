@@ -1,0 +1,5 @@
+---
+- name: Install python-firewall
+  yum:
+    name: "python-firewall"
+    state: present

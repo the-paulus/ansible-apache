@@ -178,7 +178,7 @@ apache_gentoo_flags:
 Additional use flags for the apache package can be set in `apache_gentoo_flags`.
 
 ```yml
-apache_gentoo_modules:
+_apache_gentoo_modules:
   - alias
   - auth_basic
   - auth_digest
@@ -196,10 +196,15 @@ apache_gentoo_modules:
   - log_config
   - log_forensic
   - mime
+  - proxy
+  - proxy_fcgi
   - rewrite
   - setenvif
+  - socache_shmcb
   - spelling
   - status
+  - unixd
+  - userdir
   - vhost_alias
 ```
 
@@ -213,6 +218,12 @@ apache_gentoo_mpms:
 ```
 
 A list of Apache MPMs defined as a list.
+
+```yml
+apache_gentoo_opts: "-D DEFAULT_VHOST -D INFO -D SSL -D SSL_DEFAULT_VHOST -D PROXY"
+```
+
+Additional options that are passed to `apache2` command.
 
 ### RedHat
 

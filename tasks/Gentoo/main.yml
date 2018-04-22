@@ -19,7 +19,6 @@
     line: "APACHE2_OPTS=\"{{ apache_gentoo_opts }}\""
     backup: yes
 
-
 - name: Check type of /etc/portage/package.use
   stat:
     path: /etc/portage/package.use

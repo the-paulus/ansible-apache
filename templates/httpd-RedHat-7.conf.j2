@@ -33,7 +33,7 @@
 # same ServerRoot for multiple httpd daemons, you will need to change at
 # least PidFile.
 #
-ServerRoot "{{ apache_server_root }}"
+ServerRoot "{{  apache_server_root }}"
 
 #
 # Listen: Allows you to bind Apache to specific IP addresses and/or
@@ -43,8 +43,7 @@ ServerRoot "{{ apache_server_root }}"
 # Change this to Listen on specific IP addresses as shown below to
 # prevent Apache from glomming onto all bound IP addresses.
 #
-{{ apache_listen | default('#Listen 12.34.56.78:80') }}
-Listen 80
+{{ apache_listen | default('Listen 80') }}
 
 #
 # Dynamic Shared Object (DSO) Support

@@ -51,3 +51,19 @@
     package: "www-servers/apache"
     quiet: yes
     state: present
+
+- name: "Update /etc/apache2/httpd.conf"
+  lineinfile:
+    path: "/etc/apache2/httpd.conf"
+    regexp: '\w*.*ServerRoot'
+    line: "ServerRoot \"{{ apache_server_root[ansible_distribution] }}\""
+    state: present
+    backup: yes
+
+- name: "Update /etc/apache2/vhosts.d/00_default_vhost.conf"
+  lineinfile:
+    path: "/etc/apache2/vhosts.d/00_default_vhost.conf"
+    regexp: '\w*.*Listen 80'
+    line: "Listen {{ apache_listen | default('80') }}"
+    state: present
+    backup: yes

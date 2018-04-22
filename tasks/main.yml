@@ -1,5 +1,5 @@
 ---
-- name: Import Apache Install Tasks
+- name: "Import {{ ansible_os_family }} Tasks"
   include_tasks: "{{ ansible_os_family }}/main.yml"
 
 - set_fact:
@@ -9,7 +9,7 @@
     apache_merged_vhosts: "{{ apache_merged_vhosts + apache_ssl_vhosts }}"
   when: apache_vhosts and apache_ssl_vhosts
 
-- name: Create Hosting File Structure
+- name: Create Domain Directory Structure
   file:
     path: "{{ apache_vhost_base_directory }}/{{ item[0]['server_name'] }}/{{ item[1] }}"
     state: directory
@@ -19,7 +19,7 @@
     - "{{ apache_merged_vhosts }}"
     - "{{ apache_vhost_directories }}"
 
-- name: Create Additional Direcories
+- name: Create Additional Directories
   file:
     path: "{{ item[1] }}"
     state: directory
@@ -31,24 +31,23 @@
 
 - name: "Create/Update main Apache configuration file"
   template:
-    dest: "{{ _apache_server_root[ansible_distribution] }}/conf/httpd.conf"
-    src: "httpd.conf.j2"
+    dest: "{{ _apache_httpd_conf_path[ansible_distribution] }}"
+    src: "httpd-{{ ansible_os_family }}-{{ansible_distribution_major_version}}.conf.j2"
     owner: root
     group: root
+    backup: yes
+  when: ansible_os_family != "Gentoo"
 
 - name: "Create vhosts configuration directory"
   file:
-    path: "{{ item }}"
+    path: "{{ _apache_vhosts_conf_path[ansible_distribution] }}"
     owner: root
     group: root
     state: directory
-  with_items:
-    - "{{ _apache_server_root[ansible_distribution] }}/conf.d"
-    - "{{ _apache_server_root[ansible_distribution] }}/conf.d/vhosts"
 
 - name: "Create vhost files"
   template:
-    dest: "{{ _apache_server_root[ansible_distribution] }}/conf.d/vhosts/{{ item['server_name'] | replace('.', '_') }}.conf"
+    dest: "{{ _apache_vhosts_conf_path[ansible_distribution] }}/{{ item['server_name'] | replace('.', '_') }}.conf"
     src: "vhost.conf.j2"
     owner: root
     group: root
@@ -57,7 +56,7 @@
 
 - name: "Create ssl-vhost files"
   template:
-    dest: "{{ _apache_server_root[ansible_distribution] }}/conf.d/vhosts/{{item['server_name'] | replace('.', '_') }}-ssl.conf"
+    dest: "{{ _apache_vhosts_conf_path[ansible_distribution] }}/{{item['server_name'] | replace('.', '_') }}-ssl.conf"
     src: "vhost-ssl.conf.j2"
     owner: root
     group: root
@@ -72,11 +71,7 @@
 
 - name: Import SELinux Tasks
   include_tasks: selinux.yml
-  when: ansible_selinux['status'] is defined and ansible_selinux['status'] == enabled
-
-- name: "Install python-firewall package for firewalld tasks"
-  yum:
-    name: "python-firewall"
+  when: ansible_selinux['status'] is defined and ansible_selinux['status'] == "enabled"
 
 - name: "Enable Firewalld Rules"
   firewalld:
@@ -87,6 +82,7 @@
   with_items:
     - http
     - https
+  ignore_errors: yes
 
 - name: "Enable and start apache"
   service:

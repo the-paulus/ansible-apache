@@ -1,0 +1,153 @@
+---
+driver:
+  name: vagrant
+  box_check_update: no
+
+provisioner:
+  name: ansible_playbook
+  playbook: test/integration/default/test.yml
+  shell_command: '/bin/bash'
+  show_command_output: false
+  ansible_verbose: true
+  #ansible_verbosity: 3
+  ansible_extra_flags: ""
+  ansible_host_key_checking: false
+  ansible_sudo: true
+  hosts: all
+  additional_copy_path:
+    - '.'
+  additional_copy_role_path:
+    - ".."
+
+platforms:
+  - name: archlinux
+    driver_config:
+      box: archlinux/archlinux
+      customize:
+        cpus: 1
+        memory: 512
+      network:
+        - ["private_network", {ip: "192.168.100.2"}]
+  - name: centos6
+    driver_config:
+      box: centos/6
+      customize:
+        cpus: 1
+        memory: 512
+      network:
+        - ['private_network', {ip: '192.168.100.3'}]
+  - name: centos7
+    driver_config:
+      box: centos/7
+      customize:
+        cpus: 1
+        memory: 512
+      network:
+        - ['private_network', {ip: '192.168.100.4'}]
+  - name: debian8
+    driver_config:
+      box: debian/jessie64
+      customize:
+        cpus: 1
+        memory: 512
+      network:
+        - ['private_network', {ip: '192.168.100.5'}]
+  - name: debian9
+    driver_config:
+      box: debian/wheezy64
+      customize:
+        cpus: 1
+        memory: 512
+      network:
+        - ['private_network', {ip: '192.168.100.6'}]
+  - name: fedora25
+    driver_config:
+      box: generic/fedora25
+      customize:
+        cpus: 1
+        memory: 512
+      network:
+        - ['private_network', {ip: '192.168.100.7'}]
+  - name: fedora26
+    driver_config:
+      box: generic/fedora26
+      customize:
+        cpus: 1
+        memory: 512
+      network:
+        - ['private_network', {ip: '192.168.100.8'}]
+  - name: fedora27
+    driver_config:
+      box: generic/fedora27
+      customize:
+        cpus: 1
+        memory: 512
+      network:
+        - ['private_network', {ip: '192.168.100.9'}]
+  - name: gentoo
+    driver-config:
+      box: generic/gentoo
+      customize:
+        cpus: 4
+        memory: 2048
+      network:
+        - ['private_network', {ip: '192.168.100.10'}]
+  - name: redhat6
+    driver-config:
+      box: samdoran/rhel6
+      customize:
+        cpus: 1
+        memory: 512
+      network:
+        - ['private_network', {ip: '192.168.100.11'}]
+  - name: redhat7
+    driver-config:
+      box: generic/rhel7
+      customize:
+        cpus: 1
+        memory: 512
+      network:
+        - ['private_network', {ip: '192.168.100.12'}]
+  - name: ubuntu-artful
+    driver-config:
+      box: ubuntu-artful64
+      customize:
+        cpus: 1
+        memory: 512
+      network:
+        - ['private_network', {ip: '192.168.100.13'}]
+  - name: ubuntu-precise
+    driver-config:
+      box: ubuntu/precise64
+      customize:
+        cpus: 1
+        memory: 512
+      network:
+        - ['private_network', {ip: '192.168.100.14'}]
+  - name: ubuntu-trusty
+    driver-config:
+      box: ubuntu/trusty64
+      customize:
+        cpus: 1
+        memory: 512
+      network:
+        - ['private_network', {ip: '192.168.100.15'}]
+  - name: ubuntu-xenial
+    driver-config:
+      box: ubuntu/xenial64
+      customize:
+        cpus: 1
+        memory: 512
+      network:
+        - ['private_network', {ip: '192.168.100.16'}]
+
+verifier:
+  name: serverspec
+  sudo_path: false
+
+suites:
+  - name: default
+    verifier:
+      default_pattern: true
+      bundler_path: '/usr/local/bin'
+      rspec_path: '/usr/local/bin'

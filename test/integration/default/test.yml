@@ -1,0 +1,47 @@
+---
+- hosts: localhost
+  vars:
+    apache_use_letsencrypt: no
+    apache_vhosts:
+      - owner: "apache"
+        group: "apache"
+        server_name: "{{ ansible_fqdn }}"
+        server_admin: "webmaster@{{ ansible_fqdn }}"
+        server_aliases:
+          - "www.{{ inventory_hostname }}.com"
+        custom_logs:
+          - name: "/var/www/vhosts/{{ ansible_fqdn }}/logs/access_log"
+            format: "common"
+        additional_directories:
+          - directory_path: "/var/www/vhosts/{{ ansible_fqdn }}/httpdocs"
+            options:
+              - AllowOverride All
+              - Options -Indexes +FollowSymLinks
+              - Require all granted
+        extra_config_options:
+          - RewriteEngine on
+          - RewriteCond %{SERVER_NAME} =example.com
+          - RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+      - owner: "apache"
+        group: "apache"
+        server_name: "subdomain.{{ ansible_fqdn }}"
+        server_admin: "webmaster@{{ ansible_fqdn }}"
+        custom_logs:
+          - name: "/var/www/vhosts/{{ ansible_fqdn }}/logs/access_log"
+            format: "common"
+        additional_directories:
+          - directory_path: "/var/www/vhosts/{{ ansible_fqdn }}/subdomains/subdomain/httpdocs"
+            options:
+              - AllowOverride All
+              - Options -Indexes +FollowSymLinks
+              - Require all granted
+              - |
+                <FilesMatch "\.php$">
+                  SetHandler "proxy:unix:/var/run/php-fpm/paulusio.sock|fcgi://paulslinuxbox.net"
+                </FilesMatch>
+        extra_config_options:
+          - RewriteEngine on
+          - RewriteCond %{SERVER_NAME} =example2.com
+          - RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+  roles:
+    - apache

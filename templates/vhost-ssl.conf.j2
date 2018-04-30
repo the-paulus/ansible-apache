@@ -15,30 +15,24 @@
   {% endfor %}
   {% endif %}
 
-  <IfModule mod_headers.c>
-    <FilesMatch "(\.js|\.css)">
-      Header append Vary Accept-Encoding
-    </FilesMatch>
-    Header unset X-Generator
-    Header unset X-Drupal-Cache
-    Header unset X-Powered-By
-    Header unset Server
-  </IfModule>
+  {% if apache_vhost_standard_settings %}
+  {% for apache_vhost_standard_setting in apache_vhost_standard_settings %}
+  {{ apache_vhost_standard_setting }}
+  {% endfor %}
+  {% endif %}
 
-  <IfModule mod_default.c>
-    SetOutputFilter DEFAULT
-    SetEnvIfNoCase Request_URI \.(?:exe|t?gz|zip|iso|tar|bz2|sit|rar|png|jpg|gif|jpeg|flv|swf|mp3)$ no-gzip dont-vary
-    DeflateCompressionLevel 9
-    BrowserMatch ^Mozilla/4 gzip-only-text/html
-    BrowserMatch ^Mozilla/4.0[678] no-gzip
-    BrowserMatch bMSIE !no-gzip !gzip-only-text/html
-    SetEnvIf User-Agent ".*MSIE.*" nokeepalive ssl-unclean-shutdown downgrade-1.0 force-response-1.0
-  </IfModule>
+  {% if item.extra_config_options is defined and item.extra_config_options %}
+  {% for extra_option in item.extra_config_options %}
+  {{ extra_option }}
+  {% endfor %}
+  {% endif %}
 
   <Directory "{{ apache_vhost_base_directory }}/{{ item['server_name'] }}/httpdocs">
-    Options -Indexes -FollowSymLinks
-    AllowOverride all
-    Require all granted
+    {% if item.root_directory_options is defined and item.root_directory_options %}
+    {% for root_directory_option in item.root_directory_options %}
+    {{ root_directory_option }}
+    {% endfor %}
+    {% endif %}
   </Directory>
 
   {% if item['additional_directories'] is defined %}

@@ -28,7 +28,7 @@ describe file('/var/www/vhosts') do
 end
 
 [
-  '/var/www/vhosts/' + ENV[HOSTNAME],
+  '/var/www/vhosts/' + ENV['HOSTNAME'],
   '/var/www/vhosts/' + ENV[HOSTNAME] + '/backups',
   '/var/www/vhosts/' + ENV[HOSTNAME] + '/httpdocs',
   '/var/www/vhosts/' + ENV[HOSTNAME] + '/logs',

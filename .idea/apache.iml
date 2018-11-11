@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="RUBY_MODULE" version="4">
+  <component name="ModuleRunConfigurationManager">
+    <shared />
+  </component>
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.3, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bundler (v1.15.4, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="chef (v13.6.4, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.3, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="erubis (v2.7.0, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="ffi (v1.9.23, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="gssapi (v1.2.0, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="gyoku (v1.3.1, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="httpclient (v2.8.3, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="kitchen-ansible (v0.48.3, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="kitchen-vagrant (v1.3.2, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="kitchen-verifier-serverspec (v0.6.10, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="little-plugger (v1.1.4, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="logging (v2.2.2, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mixlib-install (v3.9.3, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mixlib-shellout (v2.3.2, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mixlib-versioning (v1.2.2, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="multi_json (v1.13.1, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="net-scp (v1.2.1, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="net-ssh (v4.2.0, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="net-ssh-gateway (v1.3.0, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="net-telnet (v0.1.1, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="nori (v2.6.0, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec (v3.7.0, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-core (v3.7.1, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-expectations (v3.7.0, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-its (v1.2.0, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-mocks (v3.7.0, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-support (v3.7.1, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rubyntlm (v0.6.2, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rubyzip (v1.2.1, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="serverspec (v2.41.3, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sfl (v2.3, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="specinfra (v2.73.3, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="test-kitchen (v1.21.1, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="thor (v0.19.1, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="winrm (v2.2.3, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="winrm-elevated (v1.1.0, Chef DK: /opt/chefdk) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="winrm-fs (v1.2.0, Chef DK: /opt/chefdk) [gem]" level="application" />
+  </component>
+</module>
